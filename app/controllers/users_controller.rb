@@ -37,6 +37,12 @@ class UsersController < ApplicationController
       end
     end
 
+    def favorites 
+      favorite_artworks_owned = Artwork.where(artist_id: params[:user_id]).where(is_favorite: true)
+      favorite_artworks_shared = User.find(params[:user_id]).shared_artworks.where(is_favorite: true)
+      render json: favorite_artworks_owned + favorite_artworks_shared 
+    end
+
     private
     def user_params
         params.require(:user).permit(:username)
