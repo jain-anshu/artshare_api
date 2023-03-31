@@ -1,6 +1,10 @@
 class UsersController < ApplicationController
     def index
+      if params[:username].present?
+        users = User.where("username like ?", "%#{params[:username]}%")
+      else  
         users = User.all
+      end  
         render json: users, status: :ok
     end
 
